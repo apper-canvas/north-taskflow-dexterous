@@ -1,11 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/utils/cn";
-import { format, isToday, isTomorrow, isPast, parseISO } from "date-fns";
-import Checkbox from "@/components/atoms/Checkbox";
+import { format, isPast, isToday, isTomorrow, parseISO } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
 import Badge from "@/components/atoms/Badge";
 import Button from "@/components/atoms/Button";
-import ApperIcon from "@/components/ApperIcon";
+import Checkbox from "@/components/atoms/Checkbox";
+import { cn } from "@/utils/cn";
 
 const TaskCard = ({ 
   task, 
@@ -16,12 +16,12 @@ const TaskCard = ({
 }) => {
   const { 
     Id, 
-    title, 
-    description, 
-    priority, 
-    dueDate, 
-    completed, 
-    listId 
+    title_c, 
+    description_c, 
+    priority_c, 
+    due_date_c, 
+    completed_c, 
+    list_id_c 
   } = task;
   
   const formatDueDate = (dateString) => {
@@ -57,51 +57,51 @@ const TaskCard = ({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, x: 20 }}
       whileHover={{ y: -2, transition: { duration: 0.15 } }}
-      className={cn(
+className={cn(
         "bg-white rounded-xl p-6 shadow-sm border hover:shadow-lg transition-all duration-200",
-        priorityStyles[priority],
-        completed && "task-completed",
+        priorityStyles[priority_c],
+        completed_c && "task-completed",
         className
       )}
     >
       <div className="flex items-start justify-between">
         <div className="flex items-start space-x-4 flex-1">
-          <div className="pt-1">
+<div className="pt-1">
             <Checkbox
-              checked={completed}
+              checked={completed_c}
               onChange={() => onToggleComplete(Id)}
             />
           </div>
           
           <div className="flex-1 min-w-0">
-            <h3 className={cn(
+<h3 className={cn(
               "text-lg font-semibold text-gray-900 mb-2",
-              completed && "line-through opacity-60"
+              completed_c && "line-through opacity-60"
             )}>
-              {title}
+              {title_c}
             </h3>
             
-            {description && (
-              <p className={cn(
+            {description_c && (
+<p className={cn(
                 "text-gray-600 mb-4",
-                completed && "opacity-60"
+                completed_c && "opacity-60"
               )}>
-                {description}
+                {description_c}
               </p>
             )}
             
             <div className="flex items-center space-x-3">
-              <Badge variant={priority} size="sm">
-                {priority.charAt(0).toUpperCase() + priority.slice(1)}
+<Badge variant={priority_c} size="sm">
+                {priority_c.charAt(0).toUpperCase() + priority_c.slice(1)}
               </Badge>
               
-              {dueDate && (
+{due_date_c && (
                 <Badge 
-                  variant={completed ? "default" : getDueDateColor(dueDate)} 
+                  variant={completed_c ? "default" : getDueDateColor(due_date_c)} 
                   size="sm"
                 >
                   <ApperIcon name="Calendar" size={12} className="mr-1" />
-                  {formatDueDate(dueDate)}
+                  {formatDueDate(due_date_c)}
                 </Badge>
               )}
             </div>

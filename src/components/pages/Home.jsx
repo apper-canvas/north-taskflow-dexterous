@@ -51,43 +51,43 @@ const Home = () => {
     let filtered = [...tasks];
     
     // Apply search filter
-    if (searchQuery.trim()) {
+if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(task => 
-        task.title.toLowerCase().includes(query) ||
-        task.description.toLowerCase().includes(query)
+        (task.title_c || "").toLowerCase().includes(query) ||
+        (task.description_c || "").toLowerCase().includes(query)
       );
     }
     
     // Apply status filter
-    if (activeFilter === "active") {
-      filtered = filtered.filter(task => !task.completed);
+if (activeFilter === "active") {
+      filtered = filtered.filter(task => !task.completed_c);
     } else if (activeFilter === "completed") {
-      filtered = filtered.filter(task => task.completed);
+      filtered = filtered.filter(task => task.completed_c);
     }
     
     // Sort by priority and due date
     filtered.sort((a, b) => {
-      // Completed tasks go to bottom
-      if (a.completed !== b.completed) {
-        return a.completed ? 1 : -1;
+// Completed tasks go to bottom
+      if (a.completed_c !== b.completed_c) {
+        return a.completed_c ? 1 : -1;
       }
       
       // Priority order
       const priorityOrder = { high: 3, medium: 2, low: 1 };
-      if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
-        return priorityOrder[b.priority] - priorityOrder[a.priority];
+      if (priorityOrder[a.priority_c] !== priorityOrder[b.priority_c]) {
+        return priorityOrder[b.priority_c] - priorityOrder[a.priority_c];
       }
       
       // Due date order (null dates go last)
-      if (a.dueDate && !b.dueDate) return -1;
-      if (!a.dueDate && b.dueDate) return 1;
-      if (a.dueDate && b.dueDate) {
-        return new Date(a.dueDate) - new Date(b.dueDate);
+      if (a.due_date_c && !b.due_date_c) return -1;
+      if (!a.due_date_c && b.due_date_c) return 1;
+      if (a.due_date_c && b.due_date_c) {
+        return new Date(a.due_date_c) - new Date(b.due_date_c);
       }
       
       // Created date order
-      return new Date(b.createdAt) - new Date(a.createdAt);
+      return new Date(b.created_at_c) - new Date(a.created_at_c);
     });
     
     return filtered;
@@ -100,26 +100,26 @@ const Home = () => {
       label: "All", 
       count: tasks.length 
     },
-    { 
+{ 
       value: "active", 
       label: "Active", 
-      count: tasks.filter(task => !task.completed).length 
+      count: tasks.filter(task => !task.completed_c).length 
     },
     { 
       value: "completed", 
       label: "Completed", 
-      count: tasks.filter(task => task.completed).length 
+      count: tasks.filter(task => task.completed_c).length 
     }
   ], [tasks]);
   
   // Task actions
-  const handleToggleComplete = async (taskId) => {
+const handleToggleComplete = async (taskId) => {
     const task = tasks.find(t => t.Id === taskId);
     if (!task) return;
     
     try {
       const updatedTask = await taskService.update(taskId, {
-        completed: !task.completed
+        completed_c: !task.completed_c
       });
       
       setTasks(prev => prev.map(t => 

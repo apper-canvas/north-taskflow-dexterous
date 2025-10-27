@@ -15,12 +15,12 @@ const TaskModal = ({
   task = null,
   lists = []
 }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    priority: "medium",
-    dueDate: null,
-    listId: "1"
+const [formData, setFormData] = useState({
+    title_c: "",
+    description_c: "",
+    priority_c: "medium",
+    due_date_c: null,
+    list_id_c: "1"
   });
   
   const [loading, setLoading] = useState(false);
@@ -28,12 +28,12 @@ const TaskModal = ({
   
   useEffect(() => {
     if (task) {
-      setFormData({
-        title: task.title || "",
-        description: task.description || "",
-        priority: task.priority || "medium",
-        dueDate: task.dueDate || null,
-        listId: task.listId || "1"
+setFormData({
+        title_c: task.title_c || "",
+        description_c: task.description_c || "",
+        priority_c: task.priority_c || "medium",
+        due_date_c: task.due_date_c || null,
+        list_id_c: task.list_id_c || "1"
       });
     } else {
       setFormData({
@@ -151,12 +151,12 @@ const TaskModal = ({
               
               <Select
                 label="List"
-                value={formData.listId}
-                onChange={(e) => handleInputChange("listId", e.target.value)}
+value={formData.list_id_c}
+                onChange={(e) => handleInputChange("list_id_c", e.target.value)}
               >
                 {lists.map((list) => (
                   <option key={list.Id} value={list.Id.toString()}>
-                    {list.name}
+                    {list.name_c}
                   </option>
                 ))}
               </Select>
